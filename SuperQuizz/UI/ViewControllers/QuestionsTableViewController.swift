@@ -58,7 +58,15 @@ class QuestionsTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "QuestionTableViewCell", for: indexPath) as! QuestionTableViewCell
         
         cell.questionTitleLabel.text = allQuestion[indexPath.row].questionTitle
-        
+        if allQuestion[indexPath.row].userChoice == nil{
+                cell.backgroundColor = UIColor.white
+        } else {
+            if allQuestion[indexPath.row].userChoice == allQuestion[indexPath.row].correctAnswer{
+                cell.backgroundColor = UIColor.green
+            } else {
+                cell.backgroundColor = UIColor.red
+            }
+        }
         return cell
     }
     

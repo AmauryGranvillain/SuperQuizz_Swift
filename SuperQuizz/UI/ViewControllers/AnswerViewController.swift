@@ -38,6 +38,7 @@ class AnswerViewController: UIViewController {
         } else {
             resultAnswer = false
         }
+        question.userChoice = sender.titleLabel?.text
         userDidChooseAnswer(isCorrectAnswer: resultAnswer)
         
     }
@@ -61,7 +62,6 @@ class AnswerViewController: UIViewController {
             alert.addAction(UIAlertAction(title: "Shame ...", style: .default, handler: { (action) in
                 self.onQuestionAnswered?(self.question,isCorrectAnswer)
             }))
-            
             self.present(alert, animated: true)
         }
     }
