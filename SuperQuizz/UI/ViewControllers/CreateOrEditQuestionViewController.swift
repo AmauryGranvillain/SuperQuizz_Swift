@@ -35,17 +35,44 @@ class CreateOrEditQuestionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        if let question = questionToEdit {
+            titleQuestionText.text = question.questionTitle
+            textAnswer1.text = question.propositions[0]
+            textAnswer2.text = question.propositions[1]
+            textAnswer3.text = question.propositions[2]
+            textAnswer4.text = question.propositions[3]
+            if question.correctAnswer == textAnswer1.text{
+                checkAnswer1.setOn(true, animated: true)
+                checkAnswer2.setOn(false, animated: true)
+                checkAnswer3.setOn(false, animated: true)
+                checkAnswer4.setOn(false, animated: true)
+            } else if question.correctAnswer == textAnswer2.text{
+                checkAnswer1.setOn(false, animated: true)
+                checkAnswer2.setOn(true, animated: true)
+                checkAnswer3.setOn(false, animated: true)
+                checkAnswer4.setOn(false, animated: true)
+            } else if question.correctAnswer == textAnswer3.text{
+                checkAnswer1.setOn(false, animated: true)
+                checkAnswer2.setOn(false, animated: true)
+                checkAnswer3.setOn(true, animated: true)
+                checkAnswer4.setOn(false, animated: true)
+            } else{
+                checkAnswer1.setOn(false, animated: true)
+                checkAnswer2.setOn(false, animated: true)
+                checkAnswer3.setOn(false, animated: true)
+                checkAnswer4.setOn(true, animated: true)
+            }
+        }
     }
     
     func createOrEditQuestion () {
-        updateCorrectAnswer()
+        upCorrectAnswer()
         if let question = questionToEdit {
             question.questionTitle = titleQuestionText.text
             question.propositions[0] = textAnswer1.text ?? ""
-            question.propositions[1] = textAnswer1.text ?? ""
-            question.propositions[2] = textAnswer1.text ?? ""
-            question.propositions[3] = textAnswer1.text ?? ""
+            question.propositions[1] = textAnswer2.text ?? ""
+            question.propositions[2] = textAnswer3.text ?? ""
+            question.propositions[3] = textAnswer4.text ?? ""
             question.correctAnswer = correctAnswer
             delegate?.userDidEditQuestion(q: question)
         } else {
@@ -68,7 +95,7 @@ class CreateOrEditQuestionViewController: UIViewController {
         sender.setOn(true, animated: true)
     }
     
-    func updateCorrectAnswer (){
+    func upCorrectAnswer (){
         if checkAnswer1.isOn{
             correctAnswer = textAnswer1.text
         } else if checkAnswer2.isOn{

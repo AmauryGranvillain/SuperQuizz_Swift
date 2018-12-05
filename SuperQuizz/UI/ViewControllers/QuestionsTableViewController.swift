@@ -76,6 +76,24 @@ class QuestionsTableViewController: UITableViewController {
         self.show(vc, sender: self)
     }
     
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        
+        let editAction = UITableViewRowAction(style: .normal, title: "Edit") { (action, indexpath) in
+            //TODO: edit question
+            let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "CreateOrEditQuestionViewController") as! CreateOrEditQuestionViewController
+            controller.delegate = self
+            controller.questionToEdit = self.allQuestion[indexPath.row]
+            self.present(controller, animated: true, completion: nil)
+            
+        }
+        
+        let deleteAction = UITableViewRowAction(style: .destructive, title: "delete") { (action, indexpath) in
+            self.allQuestion.remove(at: indexPath.row)
+            self.tableView.reloadData()
+        }
+        return [editAction,deleteAction]
+    }
+    
     func addQuestion (q : Question){
         allQuestion.append(q)
     }
@@ -90,7 +108,6 @@ class QuestionsTableViewController: UITableViewController {
 
 extension QuestionsTableViewController : CreateOrEditQuestionDelegate {
     func userDidEditQuestion(q: Question) {
-        //TODO: Maj de la question
         self.tableView.reloadData()
         self.presentedViewController?.dismiss(animated: true, completion: nil)
     }
