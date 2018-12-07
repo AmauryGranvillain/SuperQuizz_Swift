@@ -24,6 +24,8 @@ class AnswerViewController: UIViewController {
     @IBOutlet weak var answerButton3: UIButton!
     @IBOutlet weak var answerButton4: UIButton!
     
+    @IBOutlet weak var imgQuestion: UIImageView!
+    
     @IBOutlet weak var progressBar: UIProgressView!
     
     override func viewDidLoad() {
@@ -34,6 +36,18 @@ class AnswerViewController: UIViewController {
         answerButton2.setTitle(question.propositions[1], for: .normal)
         answerButton3.setTitle(question.propositions[2], for: .normal)
         answerButton4.setTitle(question.propositions[3], for: .normal)
+        
+        print(question.imgQuestion)
+        guard let urlImg = question.imgQuestion else{return}
+        print(urlImg)
+        guard let url = URL(string: urlImg) else {return}
+        print(url)
+        DispatchQueue.global().async {
+            guard let data = try? Data(contentsOf: url) else {return}
+            DispatchQueue.main.async {
+                self.imgQuestion.image = UIImage(data: data)
+            }
+        }
         
         workItem = DispatchWorkItem {
             for i in 0...20 {

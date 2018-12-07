@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftIcons
 
 class QuestionsTableViewController: UITableViewController {
     
@@ -14,12 +15,6 @@ class QuestionsTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
         
         tableView.register(UINib(nibName: "QuestionTableViewCell", bundle: nil), forCellReuseIdentifier: "QuestionTableViewCell")
         
@@ -46,19 +41,24 @@ class QuestionsTableViewController: UITableViewController {
         // #warning Incomplete implementation, return the number of rows
         return allQuestion.count
     }
-
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100
+    }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "QuestionTableViewCell", for: indexPath) as! QuestionTableViewCell
         
         cell.questionTitleLabel.text = allQuestion[indexPath.row].questionTitle
         if allQuestion[indexPath.row].userChoice == nil{
-                cell.backgroundColor = UIColor.white
+                cell.iconQuestion.setIcon(icon: .fontAwesomeSolid(.chevronRight), textColor: UIColor(red:0.91, green:0.77, blue:0.42, alpha:1.0), backgroundColor: UIColor.white, size: CGSize(width: 30, height: 30))
         } else {
             if allQuestion[indexPath.row].userChoice == allQuestion[indexPath.row].correctAnswer{
-                cell.backgroundColor = UIColor.green
+                cell.questionTitleLabel.textColor = UIColor(red:0.16, green:0.62, blue:0.56, alpha:1.0)
+                cell.iconQuestion.setIcon(icon: .fontAwesomeRegular(.checkCircle), textColor: UIColor(red:0.16, green:0.62, blue:0.56, alpha:1.0), backgroundColor: UIColor.white, size: CGSize(width: 30, height: 30))
             } else {
-                cell.backgroundColor = UIColor.red
+                cell.questionTitleLabel.textColor = UIColor(red:0.91, green:0.44, blue:0.32, alpha:1.0)
+                cell.iconQuestion.setIcon(icon: .fontAwesomeRegular(.timesCircle), textColor:UIColor(red:0.91, green:0.44, blue:0.32, alpha:1.0), backgroundColor: UIColor.white, size: CGSize(width: 30, height: 30))
             }
         }
         return cell

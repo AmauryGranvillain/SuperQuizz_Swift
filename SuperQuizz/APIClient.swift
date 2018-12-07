@@ -125,7 +125,7 @@ class APIClient {
         // revoie la tache pour pouvoir l'annuler
         return task
     }
-    //TODO : Put
+
     func updateQuestion (q : Question, onSucces:@escaping (Question)->(), onError :@escaping (Error)->()) -> URLSessionTask{
         //préparation de la requete
         var request = URLRequest(url: URL(string: "\(urlServer)/questions/\(q.idQuestion!)")! )
