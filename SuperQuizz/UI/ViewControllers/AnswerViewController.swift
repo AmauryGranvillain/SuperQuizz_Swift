@@ -12,14 +12,19 @@ class AnswerViewController: UIViewController {
     
     var question : Question!
     var resultAnswer : Bool = false
+    var timeOut : Bool = false
+    var workItem : DispatchWorkItem?
     private var onQuestionAnswered : ((_ question : Question,_ isCorrectAnswer : Bool) -> ())?
-
+    private var onTimeOut : ((_ question : Question,_ isTimeOut : Bool) -> ())?
+    
     @IBOutlet weak var titleQuestionLabel: UILabel!
     
     @IBOutlet weak var answerButton1: UIButton!
     @IBOutlet weak var answerButton2: UIButton!
     @IBOutlet weak var answerButton3: UIButton!
     @IBOutlet weak var answerButton4: UIButton!
+    
+    @IBOutlet weak var progressBar: UIProgressView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +34,20 @@ class AnswerViewController: UIViewController {
         answerButton2.setTitle(question.propositions[1], for: .normal)
         answerButton3.setTitle(question.propositions[2], for: .normal)
         answerButton4.setTitle(question.propositions[3], for: .normal)
+        
+        workItem = DispatchWorkItem {
+            for i in 0...20 {
+                Thread.sleep(forTimeInterval: 1)
+                DispatchQueue.main.async {
+                    self.progressBar.setProgress(Float(i)*0.05, animated: true)
+                }
+            }
+            DispatchQueue.main.async {
+                self.question.userChoice = "false"
+                self.onQuestionAnswered?(self.question,false)
+            }
+        }
+        DispatchQueue.global(qos: .userInitiated).async(execute: workItem!)
     }
     
     

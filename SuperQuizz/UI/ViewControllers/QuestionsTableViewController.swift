@@ -23,22 +23,16 @@ class QuestionsTableViewController: UITableViewController {
         
         tableView.register(UINib(nibName: "QuestionTableViewCell", bundle: nil), forCellReuseIdentifier: "QuestionTableViewCell")
         
-        let q1 = Question(questionTitle: "Quelle est le jeu esport le plus joué ?")
-        q1.addProposition(proposition: "Overwatch")
-        q1.addProposition(proposition: "League of Legends")
-        q1.addProposition(proposition: "Clash Royal")
-        q1.addProposition(proposition: "Counter Strike")
-        q1.addCorrectAnswer(correctAnswer: "Clash Royal")
+        APIClient.instance.getAllQuestion(onSucces: { (questions) in
+            self.allQuestion = questions
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }) { (error) in
+            print(error)
+        }
         
-        let q2 = Question(questionTitle: "Quelle est la capitale de la Finlande ?")
-        q2.addProposition(proposition: "Helsinski")
-        q2.addProposition(proposition: "Copenhague")
-        q2.addProposition(proposition: "Stockholm")
-        q2.addProposition(proposition: "Oslo")
-        q2.addCorrectAnswer(correctAnswer: "Helsinski")
         
-        addQuestion(q : q1)
-        addQuestion(q : q2)
     }
     
     // MARK: - Table view data source
@@ -77,7 +71,7 @@ class QuestionsTableViewController: UITableViewController {
         
         vc.question = allQuestion[indexPath.row]
         vc.setOnReponseAnswered { (questionAnswered, result) in
-            //TODO : Mettre à jour la liste, ou faire un appel reseau, ou mettre à jour la base
+            vc.workItem?.cancel()
             self.navigationController?.popViewController(animated: true)
             self.tableView.reloadData()
         }
@@ -87,7 +81,6 @@ class QuestionsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         
         let editAction = UITableViewRowAction(style: .normal, title: "Edit") { (action, indexpath) in
-            //TODO: edit question
             let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "CreateOrEditQuestionViewController") as! CreateOrEditQuestionViewController
             controller.delegate = self
             controller.questionToEdit = self.allQuestion[indexPath.row]
@@ -96,8 +89,14 @@ class QuestionsTableViewController: UITableViewController {
         }
         
         let deleteAction = UITableViewRowAction(style: .destructive, title: "delete") { (action, indexpath) in
-            self.allQuestion.remove(at: indexPath.row)
-            self.tableView.reloadData()
+            APIClient.instance.deleteQuestion(q: self.allQuestion[indexPath.row], onSucces: { (question) in
+                DispatchQueue.main.async {
+                    self.allQuestion.remove(at: indexPath.row)
+                    self.tableView.reloadData()
+                }
+            }, onError: { (Error) in
+                print(Error)
+            })
         }
         return [editAction,deleteAction]
     }
@@ -116,13 +115,26 @@ class QuestionsTableViewController: UITableViewController {
 
 extension QuestionsTableViewController : CreateOrEditQuestionDelegate {
     func userDidEditQuestion(q: Question) {
+        APIClient.instance.updateQuestion(q: q, onSucces: { (question) in
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }) { (Error) in
+            print(Error)
+        }
         self.tableView.reloadData()
         self.presentedViewController?.dismiss(animated: true, completion: nil)
     }
     
     func userDidCreateQuestion(q: Question) {
-        addQuestion(q: q)
-        self.tableView.reloadData()
+        APIClient.instance.addQuestion(q: q, onSucces: { (question) in
+            DispatchQueue.main.async {
+                self.addQuestion(q: q)
+                self.tableView.reloadData()
+            }
+        }) { (Error) in
+            print(Error)
+        }
         self.presentedViewController?.dismiss(animated: true, completion: nil)
     }
 }

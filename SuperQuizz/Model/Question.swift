@@ -10,10 +10,13 @@ import Foundation
 
 class Question {
     
+    var idQuestion : Int?
     var questionTitle : String?
     var propositions : [String] = [String]()
     var correctAnswer : String?
     var userChoice : String?
+    var author : String?
+    var imgQuestion : String?
     
     init (questionTitle : String){
         self.questionTitle = questionTitle

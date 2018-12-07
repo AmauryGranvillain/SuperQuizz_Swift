@@ -200,7 +200,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OLR-O6-ooa">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OLR-O6-ooa">
                                 <rect key="frame" x="10" y="299" width="355" height="18"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -268,13 +268,19 @@
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="150" id="1MY-hi-Ewa"/>
                                 </constraints>
                             </stackView>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="te9-9N-RVe">
+                                <rect key="frame" x="0.0" y="55" width="375" height="2"/>
+                            </progressView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="nzN-sa-FgF" firstAttribute="width" secondItem="4w9-o6-Ehn" secondAttribute="width" constant="-20" id="9V2-qi-p1X"/>
+                            <constraint firstItem="te9-9N-RVe" firstAttribute="width" secondItem="H46-AJ-dKY" secondAttribute="width" id="HwD-Tf-Dw1"/>
                             <constraint firstItem="nzN-sa-FgF" firstAttribute="top" secondItem="OLR-O6-ooa" secondAttribute="bottom" constant="50" id="Jo5-bA-uiU"/>
+                            <constraint firstItem="te9-9N-RVe" firstAttribute="centerX" secondItem="H46-AJ-dKY" secondAttribute="centerX" id="Tg5-9j-U2M"/>
                             <constraint firstItem="OLR-O6-ooa" firstAttribute="centerX" secondItem="H46-AJ-dKY" secondAttribute="centerX" id="ViU-aX-geg"/>
                             <constraint firstItem="H46-AJ-dKY" firstAttribute="bottom" secondItem="nzN-sa-FgF" secondAttribute="bottom" constant="150" id="aVW-de-6uw"/>
+                            <constraint firstItem="te9-9N-RVe" firstAttribute="top" secondItem="H46-AJ-dKY" secondAttribute="top" constant="35" id="fce-tW-n6C"/>
                             <constraint firstItem="nzN-sa-FgF" firstAttribute="centerX" secondItem="H46-AJ-dKY" secondAttribute="centerX" id="qX7-sY-6to"/>
                             <constraint firstItem="OLR-O6-ooa" firstAttribute="width" secondItem="nzN-sa-FgF" secondAttribute="width" id="vQK-rg-kqq"/>
                         </constraints>
@@ -285,6 +291,7 @@
                         <outlet property="answerButton2" destination="CK3-Yg-LIX" id="LPc-cC-ko4"/>
                         <outlet property="answerButton3" destination="80V-5X-GyZ" id="BlR-x4-zlR"/>
                         <outlet property="answerButton4" destination="bpE-mQ-VD9" id="709-l2-Wi4"/>
+                        <outlet property="progressBar" destination="te9-9N-RVe" id="kXf-Jr-9Sw"/>
                         <outlet property="titleQuestionLabel" destination="OLR-O6-ooa" id="aPG-nL-AOw"/>
                     </connections>
                 </viewController>
